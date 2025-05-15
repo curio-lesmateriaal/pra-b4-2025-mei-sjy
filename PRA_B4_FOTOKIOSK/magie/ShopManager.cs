@@ -22,6 +22,11 @@ namespace PRA_B4_FOTOKIOSK.magie
             Instance.lbPrices.Content = text;
         }
 
+        public static string GetShopPriceList()
+        {
+            return (string)Instance.lbPrices.Content;
+        }
+
         public static void AddShopPriceList(string text)
         {
             Instance.lbPrices.Content = Instance.lbPrices.Content + text;
@@ -82,6 +87,16 @@ namespace PRA_B4_FOTOKIOSK.magie
                 id = amount;
             }
             return id;
+        }
+
+        public static void UpdatePriceList()
+        {
+            SetShopPriceList("");
+            foreach (KioskProduct product in Products)
+            {
+                string productText = $"{product.Name}: €{product.Price:F2}\n{product.Description}\n\n";
+                AddShopPriceList(productText);
+            }
         }
     }
 }
