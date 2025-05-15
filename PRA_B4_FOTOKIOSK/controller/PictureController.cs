@@ -34,6 +34,7 @@ namespace PRA_B4_FOTOKIOSK.controller
                 foreach (string file in Directory.GetFiles(dir))
                 {
                     var fileDate = DateTime.Parse(file.Split("\\")[2].Split("_id")[0].Replace("_", ":")); // van bestand naar datetime
+                    int fotoId = int.Parse(file.Split("_id")[1].Split(".")[0]);
                     if (fileDate >= now.AddMinutes(-30) && fileDate <= now.AddMinutes(-2)) // tussen 2 en 30 minuten geleden
                     {
 
@@ -45,14 +46,14 @@ namespace PRA_B4_FOTOKIOSK.controller
                             if (photoDate.AddSeconds(60) != fileDate) continue; // check of het precies 60 verschil is
 
                             int index = PicturesToDisplay.IndexOf(photo);
-                            PicturesToDisplay.Insert(index, new KioskPhoto() { Id = 0, Source = file });
+                            PicturesToDisplay.Insert(index, new KioskPhoto() { Id = fotoId, Source = file });
                             added = true;
                             break;
                         }
 
                         if (!added)
                         {
-                            PicturesToDisplay.Add(new KioskPhoto() { Id = 0, Source = file });
+                            PicturesToDisplay.Add(new KioskPhoto() { Id = fotoId, Source = file });
 
                         }
 
