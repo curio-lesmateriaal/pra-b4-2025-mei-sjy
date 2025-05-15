@@ -22,12 +22,15 @@ namespace PRA_B4_FOTOKIOSK.controller
         // Start methode die wordt aangeroepen wanneer de foto pagina opent.
         public void Start()
         {
-
+            var now = DateTime.Now;
+            int day = (int)now.DayOfWeek;
+            
             // Initializeer de lijst met fotos
             // WAARSCHUWING. ZONDER FILTER LAADT DIT ALLES!
             // foreach is een for-loop die door een array loopt
             foreach (string dir in Directory.GetDirectories(@"../../../fotos"))
             {
+                if (!(dir.Split("\\")[1].StartsWith(day.ToString()))) continue;
                 /**
                  * dir string is de map waar de fotos in staan. Bijvoorbeeld:
                  * \fotos\0_Zondag
