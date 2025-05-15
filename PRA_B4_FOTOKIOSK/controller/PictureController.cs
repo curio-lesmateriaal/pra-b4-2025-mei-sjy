@@ -1,4 +1,5 @@
-﻿using PRA_B4_FOTOKIOSK.magie;
+﻿using Microsoft.VisualBasic;
+using PRA_B4_FOTOKIOSK.magie;
 using PRA_B4_FOTOKIOSK.models;
 using System;
 using System.Collections.Generic;
@@ -31,17 +32,23 @@ namespace PRA_B4_FOTOKIOSK.controller
             foreach (string dir in Directory.GetDirectories(@"../../../fotos"))
             {
                 if (!(dir.Split("\\")[1].StartsWith(day.ToString()))) continue;
-                /**
-                 * dir string is de map waar de fotos in staan. Bijvoorbeeld:
-                 * \fotos\0_Zondag
-                 */
+                
                 foreach (string file in Directory.GetFiles(dir))
                 {
                     /**
                      * file string is de file van de foto. Bijvoorbeeld:
                      * \fotos\0_Zondag\10_05_30_id8824.jpg
                      */
-                    PicturesToDisplay.Add(new KioskPhoto() { Id = 0, Source = file });
+
+
+                    var fileDate = DateTime.Parse(file.Split("\\")[2].Split("_id")[0].Replace("_", ":"));
+                    if (fileDate >= now.AddMinutes(-30) && fileDate <= now.AddMinutes(-2))
+                    {
+                        PicturesToDisplay.Add(new KioskPhoto() { Id = 0, Source = file });
+
+                    }
+
+
                 }
             }
 
