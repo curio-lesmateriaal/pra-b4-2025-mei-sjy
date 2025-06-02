@@ -76,7 +76,8 @@ namespace PRA_B4_FOTOKIOSK.controller
         // Wordt uitgevoerd wanneer er op de Refresh knop is geklikt
         public void RefreshButtonClick()
         {
-
+            PicturesToDisplay = new List<KioskPhoto>();
+            Start();
         }
 
     }
