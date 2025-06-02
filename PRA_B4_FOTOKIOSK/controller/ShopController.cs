@@ -16,7 +16,7 @@ namespace PRA_B4_FOTOKIOSK.controller
     {
 
         public static Home Window { get; set; }
-        private List<(string ProductName, double Price, int Amount)> receiptItems = new List<(string, double, int)>();
+        public List<(string ProductName, double Price, int Amount)> receiptItems = new List<(string, double, int)>();
 
         public void Start()
         {
@@ -27,11 +27,11 @@ namespace PRA_B4_FOTOKIOSK.controller
             ShopManager.SetShopReceipt("Eindbedrag\n€");
 
             // Vul de productlijst met producten
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 10x15", Price = 2.55M });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 15x20", Price = 4.00M });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto sleutelhanger", Price = 7.00M });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto Mok", Price = 9.33M });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto T-Shirt", Price = 12.69M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 10x15 -", Price = 2.55M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 15x20 -", Price = 4.00M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto sleutelhanger -", Price = 7.00M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto Mok -", Price = 9.33M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto T-Shirt -", Price = 12.69M });
 
             foreach (KioskProduct item in ShopManager.Products)
             {
@@ -60,7 +60,7 @@ namespace PRA_B4_FOTOKIOSK.controller
             }
         }
 
-        private void UpdateReceipt()
+        public void UpdateReceipt()
         {
             StringBuilder receiptBuilder = new StringBuilder();
             double totalAmount = 0;
@@ -80,7 +80,8 @@ namespace PRA_B4_FOTOKIOSK.controller
         public void ResetButtonClick()
         {
             receiptItems.Clear();
-            ShopManager.SetShopReceipt("Eindbedrag\n€0.00");
+            // Als reset dan laat dit zien:
+            ShopManager.SetShopReceipt("\n---\n");
         }
 
         // Wordt uitgevoerd wanneer er op de Save knop is geklikt
