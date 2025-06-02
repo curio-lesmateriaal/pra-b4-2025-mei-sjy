@@ -8,12 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
+
+
 namespace PRA_B4_FOTOKIOSK.controller
 {
     public class ShopController
     {
 
         public static Home Window { get; set; }
+        private List<(string ProductName, double Price, int Amount)> receiptItems = new List<(string, double, int)>();
 
         public void Start()
         {
@@ -24,11 +27,11 @@ namespace PRA_B4_FOTOKIOSK.controller
             ShopManager.SetShopReceipt("Eindbedrag\n€");
 
             // Vul de productlijst met producten
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 10x15", Price = 2.55 });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 15x20", Price = 4.00 });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto sleutelhanger", Price = 7.00 });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto Mok", Price = 9.33 });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto T-Shirt", Price = 12.69 });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 10x15", Price = 2.55M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 15x20", Price = 4.00M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto sleutelhanger", Price = 7.00M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto Mok", Price = 9.33M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto T-Shirt", Price = 12.69M });
 
             foreach (KioskProduct item in ShopManager.Products)
             {
@@ -41,85 +44,53 @@ namespace PRA_B4_FOTOKIOSK.controller
         // Wordt uitgevoerd wanneer er op de Toevoegen knop is geklikt
         public void AddButtonClick()
         {
-            KioskProduct selectedProduct = ShopManager.GetSelectedProduct();
-            int? fotoId = ShopManager.GetFotoId();
-            int? amount = ShopManager.GetAmount();
+            var product = ShopManager.GetSelectedProduct();
+            var fotoID = ShopManager.GetFotoId();
+            var amount = ShopManager.GetAmount();
 
-            if (selectedProduct == null)
+            if (product != null && fotoID != null && amount != null)
             {
-                MessageBox.Show("Selecteer een product");
-                return;
+                double total = (double)(amount.Value * product.Price);
+                receiptItems.Add(((string ProductName, double Price, int Amount))(product.Name, product.Price, amount.Value));
+                UpdateReceipt();
             }
-
-            if (fotoId == null)
+            else
             {
-                MessageBox.Show("Vul een ID in");
-                return;
+                MessageBox.Show("Controleer of alle velden correct zijn ingevuld.");
             }
-
-            if (amount == null)
-            {
-                MessageBox.Show("Vul een aantal in");
-                return;
-            }
-
-
-            double final = selectedProduct.Price * (int)amount;
-
-            string finalString = final.ToString();
-
-            ShopManager.SetShopReceipt("Eindbedrag\n€" + finalString);
         }
 
-
-        public void SaveButtonClick()
+        private void UpdateReceipt()
         {
-            // Vraag de huidige bon op
-            string receipt = ShopManager.GetShopReceipt();
+            StringBuilder receiptBuilder = new StringBuilder();
+            double totalAmount = 0;
 
-            string fileName = $"Bon_{DateTime.Now:yyyyMMdd}.txt";
-            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filePath = Path.Combine(folderPath, fileName);
+            foreach (var item in receiptItems)
+            {
+                double itemTotal = item.Price * item.Amount;
+                receiptBuilder.AppendLine($"{item.Amount} x {item.ProductName}: €{itemTotal:F2}");
+                totalAmount += itemTotal;
+            }
 
-            try
-            {
-                // Sla de bon op als tekstbestand
-                File.WriteAllText(filePath, receipt);
-                MessageBox.Show($"Bon opgeslagen als:\n{filePath}");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Er is iets misgegaan bij het opslaan van de bon:\n");
-            }
+            receiptBuilder.AppendLine($"Eindbedrag\n€{totalAmount:F2}");
+            ShopManager.SetShopReceipt(receiptBuilder.ToString());
         }
-
 
         // Wordt uitgevoerd wanneer er op de Resetten knop is geklikt
         public void ResetButtonClick()
         {
-
+            receiptItems.Clear();
+            ShopManager.SetShopReceipt("Eindbedrag\n€0.00");
         }
+
         // Wordt uitgevoerd wanneer er op de Save knop is geklikt
         public void SaveButtonClick()
         {
             string receipt = ShopManager.GetShopReceipt();
+            string filePath = "receipt.txt";
+            File.WriteAllText(filePath, receipt);
+            MessageBox.Show($"Bon opgeslagen naar {filePath}");
 
-            string fileName = $"Bon_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
-            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            string filePath = Path.Combine(folderPath, fileName);
-
-            try
-            {
-                File.WriteAllText(filePath, receipt);
-
-                MessageBox.Show($"Bon succesvol opgeslagen in:\n{filePath}", "Bon opgeslagen", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Er is iets misgegaan bij het opslaan van de bon:\n{ex.Message}", "Fout", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
-
-
     }
 }
