@@ -11,21 +11,27 @@ namespace PRA_B4_FOTOKIOSK.controller
 {
     public class SearchController
     {
-        // De window die we laten zien op het scherm
         public static Home Window { get; set; }
-        
 
-        // Start methode die wordt aangeroepen wanneer de zoek pagina opent.
-        public void Start()
-        {
-
-        }
-
-        // Wordt uitgevoerd wanneer er op de Zoeken knop is geklikt
         public void SearchButtonClick()
         {
+            string input = SearchManager.GetSearchInput();
+            if (string.IsNullOrEmpty(input)) return;
 
+            string photosDir = "fotos";
+
+            if (!Directory.Exists(photosDir)) return;
+
+            var files = Directory.GetFiles(photosDir);
+
+            foreach (string file in files)
+            {
+                if (file.Contains(input))
+                {
+                    SearchManager.SetPicture(file);
+                    break;
+                }
+            }
         }
-
     }
 }
