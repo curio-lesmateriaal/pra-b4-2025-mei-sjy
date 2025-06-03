@@ -27,15 +27,15 @@ namespace PRA_B4_FOTOKIOSK.controller
             ShopManager.SetShopReceipt("Eindbedrag\n€");
 
             // Vul de productlijst met producten
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 10x15 -", Price = 2.55M });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 15x20 -", Price = 4.00M });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto sleutelhanger -", Price = 7.00M });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto Mok -", Price = 9.33M });
-            ShopManager.Products.Add(new KioskProduct() { Name = "Foto T-Shirt -", Price = 12.69M });
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 10x15 -", Price = 2.55M, Description = "Een foto van 10x15 cm."});
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto 15x20 -", Price = 4.00M, Description = "Een foto van 15x20 cm."});
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto sleutelhanger -", Price = 7.00M, Description = "Een sleutelhanger met foto."});
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto Mok -", Price = 9.33M, Description = "Een mok met foto."});
+            ShopManager.Products.Add(new KioskProduct() { Name = "Foto T-Shirt -", Price = 12.69M, Description = "Een T-Shirt met foto."});
 
             foreach (KioskProduct item in ShopManager.Products)
             {
-                ShopManager.AddShopPriceList(item.Name + ": €" + item.Price + "\n");
+                ShopManager.AddShopPriceList(item.Name + ": €" + item.Price + "\n" + item.Description + "\n");
             }
             // Update dropdown met producten
             ShopManager.UpdateDropDownProducts();
