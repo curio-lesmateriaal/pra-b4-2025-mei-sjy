@@ -11,9 +11,16 @@ namespace PRA_B4_FOTOKIOSK.controller
 {
     public class SearchController
     {
+
         public static Home Window { get; set; }
 
+        public void Start()
+        {
+            // Geen opstartlogica nodig
+        }
+
         public void SearchButtonClick()
+
         {
             string input = SearchManager.GetSearchInput();
             if (string.IsNullOrEmpty(input)) return;
@@ -21,6 +28,8 @@ namespace PRA_B4_FOTOKIOSK.controller
             string photosDir = "fotos";
 
             if (!Directory.Exists(photosDir)) return;
+
+
 
             var files = Directory.GetFiles(photosDir);
 
