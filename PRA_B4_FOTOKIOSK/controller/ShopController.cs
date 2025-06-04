@@ -110,7 +110,6 @@ namespace PRA_B4_FOTOKIOSK.controller
             receiptItems.Clear();
             // Als reset dan laat dit zien:
             ShopManager.SetShopReceipt("\n---\n");
-            ShopManager.SetShopReceipt("---");
         }
 
 

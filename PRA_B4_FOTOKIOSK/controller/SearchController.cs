@@ -9,38 +9,37 @@ using System.Threading.Tasks;
 
 namespace PRA_B4_FOTOKIOSK.controller
 {
-    public class SearchController
+    namespace PRA_B4_FOTOKIOSK.controller
     {
-
-        public static Home Window { get; set; }
-
-        public void Start()
+        public class SearchController
         {
-            // Geen opstartlogica nodig
-        }
-
-        public void SearchButtonClick()
-
-        {
-            string input = SearchManager.GetSearchInput();
-            if (string.IsNullOrEmpty(input)) return;
-
-            string photosDir = "fotos";
-
-            if (!Directory.Exists(photosDir)) return;
+            // De window die we laten zien op het scherm
+            public static Home Window { get; set; }
 
 
-
-            var files = Directory.GetFiles(photosDir);
-
-            foreach (string file in files)
+            // Start methode die wordt aangeroepen wanneer de zoek pagina opent.
+            public void Start()
             {
-                if (file.Contains(input))
-                {
-                    SearchManager.SetPicture(file);
-                    break;
-                }
+
+
+
             }
+
+            // Wordt uitgevoerd wanneer er op de Zoeken knop is geklikt
+            public void SearchButtonClick()
+            {
+
+            }
+
+
+
+
+
+
+
+
+
+
         }
     }
 }
